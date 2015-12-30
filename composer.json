@@ -1,6 +1,6 @@
 {
-    "name": "gsl/delete_contacts",
-    "description": "Delete CiviCRM Contacts from STDIN.",
+    "name": "gsl/civicrm-cli-utils",
+    "description": " Miscelanious utils. Bootstrap CiviCRM and wrap API for command-line use.",
     "license": "GPL-3.0",
     "require": {
         "wp-cli/php-cli-tools": "0.10.*"
