@@ -61,10 +61,8 @@ bootstrap_civicrm();
 validateApiConfig();
 
 $action = getOption('action', $args);
-if (file_exists(__DIR__.'/includes/'.$action.'Contact.php')) {
-echo "REQUIRING createContact.php";
-  require(__DIR__.'/includes/'.$action.'Contact.php');
-echo "REQUIRED createContact.php";
+if (file_exists(__DIR__ . '/includes/' . $action . 'Contact.php')) {
+  require(__DIR__ . '/includes/' . $action . 'Contact.php');
 }
 $inputFile = getOption('input-file', $args);
 if (file_exists($inputFile)) {
