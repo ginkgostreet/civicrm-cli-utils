@@ -1,5 +1,5 @@
 #!/usr/bin/bash
 ./clean -f "/home/obriend/Google Drive/_Ginkgo Street Labs Stuff/MPK/img/latest/ChapterDump.csv" \
-	--action "create" \
+	--action "createContact" \
 	-t "Organization" \
 	-s "Chapter"
