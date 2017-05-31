@@ -17,6 +17,10 @@ function createContact_run($args) {
 
   define('ADDRESS_TYPE', (array_key_exists("address_type", $config)) ? $config['address_type'] : "Main");
 
+  define('REL_TYPE_ID', getOption('rel-type-id', $args));
+  define('REL_EXT_ID_COL', getOption('rel-ext-id-col', $args));
+  define('REL_AB', getOption('rel-AB', $args));
+
   $main = 'processContactsForImport';
   withFile($input, $main);
 }
@@ -25,9 +29,22 @@ $fieldDefinition = array();
 
 function processContactsForImport($line, $index) {
   global $fieldDefinition;
-  processContactForImport(parseCsv($line, $index, $fieldDefinition));
-}
+  $row = parseCsv($line, $index, $fieldDefinition);
+  $primaryContact = processContactForImport($row);
 
+  if ($primaryContact && REL_TYPE_ID && REL_EXT_ID_COL && REL_AB) {
+    $relatedContactId = cvCli("Contact", "getvalue", array(
+      'external_identifier' => $row[REL_EXT_ID_COL],
+      'return' => 'id',
+    ));
+    $relatedContactDirection = in_array(REL_AB, array('A', 'a')) ? 'b' : 'a';
+    cvCli('Relationship', 'create', array(
+      'contact_id_' . strtolower(REL_AB) => $primaryContact['id'],
+      'contact_id_' . $relatedContactDirection => $relatedContactId,
+      'relationship_type_id' => REL_TYPE_ID,
+    ));
+  }
+}
 
 function processContactForImport($cont) {
   global $config;
@@ -138,11 +155,11 @@ echo "found {$state_id} for {$cont['state']}";
 
   //Do the deed
   $result = cvCli("Contact", "create", $params);
-  if($result['is_error'] != 0) {
+  if ($result['is_error'] != 0) {
     echo "Error creating contact,". implode(",", $cont);
   }
+  return $result;
 }
-
 
 /*
  CRM.api3('Contact', 'create', {

@@ -85,7 +85,8 @@ function parseCsv($line, $index=NULL, &$fieldDefinition=NULL) {
   $values = str_getcsv($line, ',', '"');
   if ($index === 0) {
     $fieldDefinition = mapColumns($values);
-  } else if ($fieldDefinition) {
+  }
+  else if ($fieldDefinition) {
     if (count($fieldDefinition) == count($values)) {
       return array_combine($fieldDefinition, $values);
     } else {

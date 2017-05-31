@@ -22,6 +22,19 @@ $args->addOption(array('id-col', 'i'), array(
   'description' => 'CiviCRM Contact ID Column',
 ));
 
+$args->addOption(array('rel-type-id'), array(
+  'description' => 'The numeric ID of the relationship to create for the contact',
+));
+
+$args->addOption(array('rel-ext-id-col'), array(
+  'description' => 'Column containing the external ID of the contact not imported in this run',
+));
+
+$args->addOption(array('rel-AB'), array(
+  'default' => 'A',
+  'description' => 'The side of the relationship (A or B) for the contact imported in this run',
+));
+
 //Todo: Make a way to dynamically list actions.
 $args->addOption(array('action', 'a'), array(
   'default' => (@$config['Action']) ? $config['Action'] : null,
