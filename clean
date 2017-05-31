@@ -84,7 +84,7 @@ if (file_exists($inputFile)) {
   die("input file $inputFile does not exist\n");
 }
 
-$funcName = $action."Contact_run";
+$funcName = $action."_run";
 
 if(function_exists($funcName)) {
   $funcName($args);
