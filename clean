@@ -60,25 +60,23 @@ define('CIVICRM_ROOT', getOption('civi-root', $args));
 bootstrap_civicrm();
 validateApiConfig();
 
-
 $action = getOption('action', $args);
-
-if (file_exists(__DIR__.'/includes/'.$action.'.php')) {
-  require(__DIR__.'/includes/'.$action.'.php');
+if (file_exists(__DIR__.'/includes/'.$action.'Contact.php')) {
+echo "REQUIRING createContact.php";
+  require(__DIR__.'/includes/'.$action.'Contact.php');
+echo "REQUIRED createContact.php";
+}
+$inputFile = getOption('input-file', $args);
+if (file_exists($inputFile)) {
+  echo("Input file exists\n");
+} else {
+  die("input file $inputFile does not exist\n");
 }
 
-$funcName = $action."_run";
+$funcName = $action."Contact_run";
+
 if(function_exists($funcName)) {
   $funcName($args);
 } else {
-  die("Unknown Action");
+  die("function $funcName not found\n");
 }
-
-
-
-
-
-
-
-
-

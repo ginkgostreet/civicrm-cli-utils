@@ -2,6 +2,7 @@
 
 function createContact_run($args) {
   global $config;
+
   $input = getOption('input-file', $args);
   define('CONTACT_TYPE', getOption('contact-type', $args));
   define('CONTACT_SUB_TYPE', getOption('contact-sub-type', $args));
@@ -29,6 +30,7 @@ function processContactsForImport($line, $index) {
 
 
 function processContactForImport($cont) {
+  global $config;
   if (!$cont) return;
   $params = $cont;
   $email = array();
@@ -103,9 +105,13 @@ function processContactForImport($cont) {
   if(array_key_exists("city", $cont)) {
     $address['city'] = $cont['city'];
   }
+
   if(array_key_exists("state", $cont)) {
-    $address['state'] = $cont['state'];
+      $state_id = $config['state_map'][$cont['state']];
+      $address['state_province_id'] = $state_id;
+echo "found {$state_id} for {$cont['state']}";
   }
+
   if(array_key_exists("postal_code", $cont)) {
     $address['postal_code'] = $cont['postal_code'];
   }

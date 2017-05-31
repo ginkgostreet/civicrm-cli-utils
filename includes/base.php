@@ -198,7 +198,9 @@ function shell($call, $chDir=NULL) {
  */
 function getConfig() {
   $confFile = __DIR__.'/../.conf';
-  if (file_exists($confFile)) {
+  if (!file_exists($confFile)) {
+    echo "WARNING: could not locate .conf file!";
+  } else {
     $file = file_get_contents($confFile);
     $configs = json_decode($file, TRUE); //assoc array
   }
