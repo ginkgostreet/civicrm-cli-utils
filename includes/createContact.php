@@ -126,7 +126,6 @@ function processContactForImport($cont) {
   if(array_key_exists("state", $cont)) {
       $state_id = $config['state_map'][$cont['state']];
       $address['state_province_id'] = $state_id;
-echo "found {$state_id} for {$cont['state']}";
   }
 
   if(array_key_exists("postal_code", $cont)) {
