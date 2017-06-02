@@ -74,9 +74,9 @@ bootstrap_civicrm();
 validateApiConfig();
 
 $action = getOption('action', $args);
-if (file_exists(__DIR__ . '/includes/' . $action . 'Contact.php')) {
-  require(__DIR__ . '/includes/' . $action . 'Contact.php');
-}
+if (file_exists(__DIR__ . '/includes/' . $action . '.php')) {
+  require(__DIR__ . '/includes/' . $action . '.php');
+} 
 $inputFile = getOption('input-file', $args);
 if (file_exists($inputFile)) {
   echo("Input file exists\n");

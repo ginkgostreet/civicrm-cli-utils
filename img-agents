@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+./clean -f "/home/obriend/Google Drive/_Ginkgo Street Labs Stuff/MPK/img/latest/UserDump.csv" \
+	--action "createContact" \
+	-t "Individual" \
+	-s "Chapter"
