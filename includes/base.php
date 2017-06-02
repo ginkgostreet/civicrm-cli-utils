@@ -42,8 +42,8 @@ function mapColumns($columns) {
   global $config;
   if (array_key_exists('MAPPINGS', $config)) {
     foreach($columns as &$column) {
-      if(array_key_exists($column, $config['MAPPINGS'])) {
-        $column = $config['MAPPINGS'][$column];
+      if(array_key_exists(trim($column), $config['MAPPINGS'])) {
+        $column = $config['MAPPINGS'][trim($column)];
       }
     }
   }
@@ -83,6 +83,10 @@ function getOption($opt, $args) {
  */
 function parseCsv($line, $index=NULL, &$fieldDefinition=NULL) {
   $values = str_getcsv($line, ',', '"');
+  // Trim leading/trailing spaces
+  foreach ($values as &$value) {
+    $value=trim($value);
+  }
   if ($index === 0) {
     $fieldDefinition = mapColumns($values);
   }
