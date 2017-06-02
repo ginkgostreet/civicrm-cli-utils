@@ -1,5 +1,7 @@
 #!/usr/bin/bash
-./clean -f "/home/obriend/Google Drive/_Ginkgo Street Labs Stuff/MPK/img/latest/ChapterDump.csv" \
+. ./.importdir
+./clean -r "/var/www/local.missionpossiblekids.org/htdocs/sites/all/modules/civicrm" \
+	-f "$IMPORTDIR/chapter_dump_api.csv" \
 	--action "createContact" \
 	-t "Organization" \
 	-s "Chapter"
