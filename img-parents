@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+. ./.importdir
+./clean -r "/var/www/local.missionpossiblekids.org/htdocs/sites/all/modules/civicrm" \
+	-f "$IMPORTDIR/agent_dump_guardian_test.csv" \
+	--action "createContact" \
+	-t "Individual" \
+	-s "Parent" \
+	--rel-type-id 1 \
+	--rel-AB b \
+	--rel-ext-id-col agent_ext_id
