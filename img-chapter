@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 . ./.importdir
 ./clean -r "/var/www/local.missionpossiblekids.org/htdocs/sites/all/modules/civicrm" \
-	-f "$IMPORTDIR/chapter_dump_api.csv" \
+	-f "$IMPORTDIR/ChapterDump.csv" \
 	--action "createContact" \
 	-t "Organization" \
 	-s "Chapter"
