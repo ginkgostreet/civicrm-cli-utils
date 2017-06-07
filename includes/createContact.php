@@ -54,12 +54,6 @@ function processContactForImport($cont) {
   $phone = array();
   $website = array();
 
-echo("Config:\n" . print_r($config, true));
-
-  if (array_key_exists("gender", $cont)) {
-    $gender_id = $config['gender_map'][$cont['gender']];
-    $cont['gender_id'] = $gender_id;
-  }
 
   if(array_key_exists("email", $cont) && $cont['email']) {
     $email[] = array("email" => $cont['email'], 'location_type_id' => EMAIL_TYPE);
@@ -155,6 +149,10 @@ echo("Config:\n" . print_r($config, true));
     $params['api.Address.create'] = $address;
   }
 
+  if (array_key_exists("gender", $cont)) {
+    $gender_id = $config['gender_map'][$cont['gender']];
+    $params['gender_id'] = $gender_id;
+  }
 
   //remove extraneous keys
   $toRemove = array("gender", "email", "work_email", "other_email", "website", "phone", "other_phone", "work_phone", "street_address", "address_1", "country", "county", "state", "city", "postal_code");
@@ -163,7 +161,7 @@ echo("Config:\n" . print_r($config, true));
   //Do the deed
   $result = cvCli("Contact", "create", $params);
   if ($result['is_error'] != 0) {
-    echo "Error creating contact,". implode(",", $cont);
+    echo "Error creating contact,". implode(",", $cont) . "\n";
   }
   return $result;
 }
