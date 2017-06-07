@@ -49,6 +49,12 @@ $args->addOption(array('contact-sub-type', 's'), array(
   'description' => 'The subtype of the contact(s) to be created',
 ));
 
+$args->addOption(array('event-type', 'e'), array(
+  // Note: 'Conference' is the machine name for Missions since some doofus renamed an existing type
+  'default' => (@$config['event_type']) ? $config['event_type'] : 'Conference',
+  'description' => 'The type of event to create',
+));
+
 $args->addFlag(array('undelete', 'ctrl-z', 'z'), 'Remove contacts from the trash is_deleted => false');
 
 $msg = <<<USAGE
