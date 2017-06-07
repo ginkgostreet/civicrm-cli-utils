@@ -1,9 +1,10 @@
 #!/usr/bin/bash
-./clean -f "/home/obriend/Google Drive/_Ginkgo Street Labs Stuff/MPK/img/latest/UserDump.csv" \
+. ./.importdir
+./clean -r "/var/www/local.missionpossiblekids.org/htdocs/sites/all/modules/civicrm" \
+	-f "$IMPORTDIR/user_dump_api.csv" \
 	--action "createContact" \
 	-t "Individual" \
 	-s "Chapter_Lead" \
 	--rel-type-id 12 \
 	--rel-AB a \
 	--rel-ext-id-col chapter_ext_id
-
