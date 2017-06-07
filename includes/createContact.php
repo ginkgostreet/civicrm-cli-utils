@@ -54,6 +54,13 @@ function processContactForImport($cont) {
   $phone = array();
   $website = array();
 
+echo("Config:\n" . print_r($config, true));
+
+  if (array_key_exists("gender", $cont)) {
+    $gender_id = $config['gender_map'][$cont['gender']];
+    $cont['gender_id'] = $gender_id;
+  }
+
   if(array_key_exists("email", $cont) && $cont['email']) {
     $email[] = array("email" => $cont['email'], 'location_type_id' => EMAIL_TYPE);
   }
@@ -148,8 +155,9 @@ function processContactForImport($cont) {
     $params['api.Address.create'] = $address;
   }
 
+
   //remove extraneous keys
-  $toRemove = array("email", "work_email", "other_email", "website", "phone", "other_phone", "work_phone", "street_address", "address_1", "country", "county", "state", "city", "postal_code");
+  $toRemove = array("gender", "email", "work_email", "other_email", "website", "phone", "other_phone", "work_phone", "street_address", "address_1", "country", "county", "state", "city", "postal_code");
   $params = array_diff_key($params, array_flip($toRemove));
 
   //Do the deed
