@@ -2,4 +2,8 @@
 ./clean -f "/home/obriend/Google Drive/_Ginkgo Street Labs Stuff/MPK/img/latest/UserDump.csv" \
 	--action "createContact" \
 	-t "Individual" \
-	-s "Agent"
+	-s "Chapter_Lead" \
+	--rel-type-id 12 \
+	--rel-AB a \
+	--rel-ext-id-col chapter_ext_id
+
