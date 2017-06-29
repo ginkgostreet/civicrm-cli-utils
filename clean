@@ -57,6 +57,11 @@ $args->addOption(array('event-type', 'e'), array(
 
 $args->addFlag(array('undelete', 'ctrl-z', 'z'), 'Remove contacts from the trash is_deleted => false');
 
+$args->addFlag('check-for-dupes', array(
+  'description' => 'If set, check for dupe by first, last, email before importing.',
+));
+
+
 $msg = <<<USAGE
 Show this help screen
 

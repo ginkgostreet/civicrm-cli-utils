@@ -5,6 +5,7 @@
 	--action "createContact" \
 	-t "Individual" \
 	-s "New_Parent" \
+  --check-for-dupes \
 	--rel-type-id 1 \
 	--rel-AB b \
 	--rel-ext-id-col agent_ext_id

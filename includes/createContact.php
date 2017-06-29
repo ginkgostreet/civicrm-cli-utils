@@ -21,6 +21,8 @@ function createContact_run($args) {
   define('REL_EXT_ID_COL', getOption('rel-ext-id-col', $args));
   define('REL_AB', getOption('rel-AB', $args));
 
+  define('CHECK_FOR_DUPES', $args['check-for-dupes']);
+
   $main = 'processContactsForImport';
   withFile($input, $main);
 }
@@ -30,7 +32,19 @@ $fieldDefinition = array();
 function processContactsForImport($line, $index) {
   global $fieldDefinition;
   $row = parseCsv($line, $index, $fieldDefinition);
-  $primaryContact = processContactForImport($row);
+
+  if (CHECK_FOR_DUPES) {
+    try {
+      $primaryContact = lookupContact($row);
+    }
+    catch (Exception $e) {
+      echo $e->getMessage() . " This contact will be imported again, and duplicate merging will need to be handled in CiviCRM.\n";
+    }
+  }
+
+  if (empty($primaryContact)) {
+    $primaryContact = processContactForImport($row);
+  }
 
   if ($primaryContact && REL_TYPE_ID && REL_EXT_ID_COL && REL_AB) {
     $relatedContactId = cvCli("Contact", "getvalue", array(
@@ -48,7 +62,10 @@ function processContactsForImport($line, $index) {
 
 function processContactForImport($cont) {
   global $config;
-  if (!$cont) return;
+  if (!$cont) {
+    return;
+  }
+
   $params = $cont;
   $email = array();
   $phone = array();
@@ -158,11 +175,51 @@ function processContactForImport($cont) {
   $toRemove = array("gender", "email", "work_email", "other_email", "website", "phone", "other_phone", "work_phone", "street_address", "address_1", "country", "county", "state", "city", "postal_code");
   $params = array_diff_key($params, array_flip($toRemove));
 
-  //Do the deed
+  // one final check; don't bother doing contact.create if minimum params reqs not met
+  if (empty($params['first_name']) && empty($params['last_name']) && empty($params['display_name']) && empty($params['email'])) {
+    return;
+  }
+
   $result = cvCli("Contact", "create", $params);
   if ($result['is_error'] != 0) {
     echo "Error creating contact,". implode(",", $cont) . "\n";
   }
+  return $result;
+}
+
+/**
+ * Fetch contacts with the provided first name, last name, and email address.
+ *
+ * @param array $contact
+ * @return mixed
+ *   NULL if no data provided or no contacts match, api.Contact.get-style array
+ *   if one match
+ * @throws Exception
+ *   If more than one contact matches.
+ */
+function lookupContact($contact) {
+  $result = NULL;
+  if (empty($contact['first_name']) || empty($contact['last_name']) || empty($contact['email'])) {
+    return $result;
+  }
+
+  $params = array(
+    'first_name' => $contact['first_name'],
+    'last_name' => $contact['last_name'],
+    'email' => $contact['email'],
+  );
+  $lookup = cvCli('Contact', 'get', $params);
+
+  switch ($lookup['count']) {
+    case 0:
+      break;
+    case 1:
+      $result = $lookup;
+      break;
+    default:
+      throw new Exception('Multiple contacts match: ' . implode(', ', $params) . '.');
+  }
+
   return $result;
 }
 
