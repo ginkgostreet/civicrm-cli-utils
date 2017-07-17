@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+./clean -r "/var/www/local.missionpossiblekids.org/htdocs/sites/all/modules/civicrm" \
+	-f /dev/null \
+	--action "makeParentsPrimary"
