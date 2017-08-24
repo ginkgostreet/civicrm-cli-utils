@@ -176,7 +176,7 @@ function processContactForImport($cont) {
   $params = array_diff_key($params, array_flip($toRemove));
 
   // one final check; don't bother doing contact.create if minimum params reqs not met
-  if (empty($params['first_name']) && empty($params['last_name']) && empty($params['organization_name']) && empty($params['household_name'] && empty($params['email'])) {
+  if (empty($params['first_name']) && empty($params['last_name']) && empty($params['organization_name']) && empty($params['household_name']) && empty($params['email'])) {
     return;
   }
 
